@@ -1,5 +1,3 @@
-markdown
-Copy
 # Contentstack Audit Log Backup System
 
 ![Contentstack Logo](https://www.contentstack.com/docs/static/contentstack_logo_black-72d7e5e1e7a9d88a6cce5a5f5b1c0a0a.svg)
