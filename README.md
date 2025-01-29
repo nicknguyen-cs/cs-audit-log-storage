@@ -1,103 +1,78 @@
+
 # Contentstack Audit Log Backup System
+Automated  backup system for Contentstack audit logs. Fetches today's logs, stores them as JSON files, and uploads to Contentstack assets with automatic local file cleanup.
 
-Automated backup system for Contentstack audit logs. Fetches, filters, and stores audit logs in JSON format while uploading them to Contentstack as assets.
+## Features
 
-## 📌 Features
+- 📅 **Date Filtering**: Only processes today's entries (can be modified)
+- 💾 **JSON Backup**: Creates timestamped JSON files
+- ☁️ **Cloud Storage**: Uploads to Contentstack assets
+- 🧹 **Auto-Cleanup**: Removes local files after upload
 
-- **Daily Log Retrieval**: Automatically fetches audit logs from Contentstack
-- **Date Filtering**: Only processes logs from the current day
-- **JSON Backup**: Saves filtered logs to timestamped JSON files
-- **Contentstack Integration**: Uploads backups as assets to specified folder
-- **Automatic Cleanup**: Deletes local files after successful upload
-- **Logging**: Colored console output with timestamps and emojis
-- **Error Handling**: Robust error tracking and reporting
+## Prerequisites
 
-## 🚀 Getting Started
+| Requirement | Version | Notes |
+ |----------------------|----------|------------------------------------| 
+ | Node.js | ≥16.x | LTS version recommended |
+| Contentstack Account | - | Requires management token |
+| npm | ≥7.x | Included with Node.js 16+ | 
+## Installation
 
-### Prerequisites
-- Node.js v16+
-- Contentstack account with:
-  - Management token 
-  - API Key
-  - Target folder UID for asset storage (can use base folder if you want. I use a folder called "Assets")
-
-### Installation
-1. Clone the repository:
 ```bash
 git clone https://github.com/your-username/cs-audit-log-backup.git
 cd cs-audit-log-backup
-Install dependencies:
-
-bash
-Copy
 npm install
-Create .env file:
+```
 
-bash
-Copy
+Create `.env` file from template:
+```bash
 cp .env.example .env
-Configuration
-Update .env with your credentials:
+```
 
-ini
-Copy
-CONTENTSTACK_API_KEY=your_api_key
-CONTENTSTACK_AUTH_TOKEN=your_management_token
-CONTENTSTACK_FOLDER_UID=your_target_folder_uid
-🛠 Usage
-bash
-Copy
-npm start
+## Configuration
+
+| Environment Variable | Required | Example Value | Description | 
+|----------------------------|----------|----------------------------|-----------------------------|
+ | `CONTENTSTACK_API_KEY` | Yes | `blt1234567890` | Contentstack API key |
+| `CONTENTSTACK_AUTH_TOKEN` | Yes | `cs1234567890` | Management token |
+| `CONTENTSTACK_FOLDER_UID` | Yes | `bltfolder123456` | Target assets folder UID | 
+## Dependencies
+
+| Package | Version | Purpose |
+ |---------------|-----------|-------------------------------| 
+ | Axios | ^1.4.0 | HTTP client for API requests |
+| date-fns | ^2.30.0 | Date formatting/manipulation |
+| dotenv | ^16.0.3 | Environment variable loader |
+| chalk | ^4.1.2 | Terminal output styling |
+| form-data | ^4.0.0 | File upload handling | 
+## Project Structure
+
+| Path | Description | 
+|---------------------|--------------------------------------| 
+| `/config` | Configuration files |
+| `/lib` | Core utilities (logging) |
+| `/services` | API clients and integrations |
+| `/utils` | Helper functions |
+| `index.js` | Main application entry point | 
+## Usage
+
+```bash
+node index.js
+```
+
 Sample output:
-
-Copy
+```bash
 🚀 Starting audit log export...
 💾 Saved 142 logs to Audit_Log_09_15_23.json
 📤 Uploaded asset ID: blt1234567890abcdef
 🎉 Process completed successfully
-Scheduling (Cron Job Example)
-Run daily at 2 AM:
+```
 
-bash
-Copy
-0 2 * * * /usr/local/bin/node /path/to/project/index.js
-📂 Project Structure
-Copy
-cs-audit-log-backup/
-├── config/               # Configuration files
-├── lib/                  # Custom libraries
-│   └── logger.js         # Logging utilities
-├── services/             # API clients and services
-├── utils/                # Helper functions
-├── .env.example          # Environment template
-├── index.js              # Main entry point
-└── package.json
-🔧 Technical Details
-Dependencies
-Package	Purpose
-axios	HTTP client for API requests
-date-fns	Date formatting and manipulation
-dotenv	Environment variable management
-chalk	Terminal output styling
-form-data	File upload handling
-Environment Variables
-Variable	Description
-CONTENTSTACK_API_KEY	Contentstack API key
-CONTENTSTACK_AUTH_TOKEN	Management token for authentication
-CONTENTSTACK_FOLDER_UID	Target folder UID for asset storage
-🚨 Error Handling
-The system implements multiple error handling layers:
+## Error Handling
 
-Environment validation at startup
+| Code | Description | Resolution | 
+|------------|------------------------------------|--------------------------------| 
+| ENV_MISSING| Missing environment variables | Check .env file |
+| API_FAIL | Contentstack API connection issue | Verify network/credentials |
+| FS_ERROR | File system operation failed | Check permissions/disk space |
 
-API request retries (future implementation)
-
-File operation error tracking
-
-Graceful shutdown on critical errors
-
-Check logs for detailed error messages:
-
-bash
-Copy
-[2023-09-15T14:30:45.000Z] ERROR: 💥 Critical error: Missing API credentials
