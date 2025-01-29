@@ -1,8 +1,6 @@
 # Contentstack Audit Log Backup System
 
-![Contentstack Logo](https://www.contentstack.com/docs/static/contentstack_logo_black-72d7e5e1e7a9d88a6cce5a5f5b1c0a0a.svg)
-
-Automated daily backup system for Contentstack audit logs. Fetches, filters, and stores audit logs in JSON format while uploading them to Contentstack as assets.
+Automated backup system for Contentstack audit logs. Fetches, filters, and stores audit logs in JSON format while uploading them to Contentstack as assets.
 
 ## 📌 Features
 
