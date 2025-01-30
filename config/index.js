@@ -1,19 +1,32 @@
-require('dotenv').config();
+import dotenv from 'dotenv';
+dotenv.config();
 
-module.exports = {
-  CONTENTSTACK: {
-    API_ENDPOINT: 'https://api.contentstack.io/v3',
-    ASSETS_PATH: '/assets',
-    AUDIT_LOGS_PATH: '/audit-logs',
-    REQUIRED_ENV: [
-      'CONTENTSTACK_API_KEY',
-      'CONTENTSTACK_AUTH_TOKEN',
-      'CONTENTSTACK_FOLDER_UID'
-    ]
-  },
-  FILE_SETTINGS: {
-    PREFIX: 'Audit_Log',
-    ENCODING: 'utf8',
-    INDENTATION: 2
-  }
+// Create config object first
+const config = {
+  CONTENTSTACK_API_BASE: process.env.CONTENTSTACK_API_BASE,
+  CONTENTSTACK_API_KEY: process.env.CONTENTSTACK_API_KEY,
+  CONTENTSTACK_AUTH_TOKEN: process.env.CONTENTSTACK_AUTH_TOKEN,
+  CONTENTSTACK_FOLDER_UID: process.env.CONTENTSTACK_FOLDER_UID
 };
+
+// Validation function
+const validateConfig = () => {
+  const required = [
+    'CONTENTSTACK_API_BASE',
+    'CONTENTSTACK_API_KEY',
+    'CONTENTSTACK_AUTH_TOKEN',
+    'CONTENTSTACK_FOLDER_UID'
+  ];
+
+  required.forEach(key => {
+    if (!config[key]) {
+      throw new Error(`Missing required config: ${key}`);
+    }
+  });
+};
+
+// Validate before exporting
+validateConfig();
+
+// Export as default
+export default config;
